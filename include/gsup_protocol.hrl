@@ -29,12 +29,12 @@
                   | ss_req
                   | ss_err
                   | ss_res
-                  | mo_forward_req
-                  | mo_forward_err
-                  | mo_forward_res
-                  | mt_forward_req
-                  | mt_forward_err
-                  | mt_forward_res
+                  | mo_forward_sm_req
+                  | mo_forward_sm_err
+                  | mo_forward_sm_res
+                  | mt_forward_sm_req
+                  | mt_forward_sm_err
+                  | mt_forward_sm_res
                   | ready_for_sm_req
                   | ready_for_sm_err
                   | ready_for_sm_res
@@ -181,12 +181,12 @@
   16#20 => #{message_type => ss_req, mandatory => [session_id, session_state], optional => [ss_info]},
   16#21 => #{message_type => ss_err, mandatory => [session_id, session_state, cause]},
   16#22 => #{message_type => ss_res, mandatory => [session_id, session_state], optional => [ss_info]},
-  16#24 => #{message_type => mo_forward_req, mandatory => [sm_rp_mr, sm_rp_da, sm_rp_oa, sm_rp_ui]},
-  16#25 => #{message_type => mo_forward_err, mandatory => [sm_rp_mr, sm_rp_cause], optional => [sm_rp_ui]},
-  16#26 => #{message_type => mo_forward_res, mandatory => [sm_rp_mr], optional => [sm_rp_ui]},
-  16#28 => #{message_type => mt_forward_req, mandatory => [sm_rp_mr, sm_rp_da, sm_rp_oa, sm_rp_ui], optional => [sm_rp_mms]},
-  16#29 => #{message_type => mt_forward_err, mandatory => [sm_rp_mr, sm_rp_cause], optional => [sm_rp_ui]},
-  16#2a => #{message_type => mt_forward_res, mandatory => [sm_rp_mr], optional => [sm_rp_ui]},
+  16#24 => #{message_type => mo_forward_sm_req, mandatory => [sm_rp_mr, sm_rp_da, sm_rp_oa, sm_rp_ui]},
+  16#25 => #{message_type => mo_forward_sm_err, mandatory => [sm_rp_mr, sm_rp_cause], optional => [sm_rp_ui]},
+  16#26 => #{message_type => mo_forward_sm_res, mandatory => [sm_rp_mr], optional => [sm_rp_ui]},
+  16#28 => #{message_type => mt_forward_sm_req, mandatory => [sm_rp_mr, sm_rp_da, sm_rp_oa, sm_rp_ui], optional => [sm_rp_mms]},
+  16#29 => #{message_type => mt_forward_sm_err, mandatory => [sm_rp_mr, sm_rp_cause], optional => [sm_rp_ui]},
+  16#2a => #{message_type => mt_forward_sm_res, mandatory => [sm_rp_mr], optional => [sm_rp_ui]},
   16#2c => #{message_type => ready_for_sm_req, mandatory => [sm_alert_reason]},
   16#2d => #{message_type => ready_for_sm_err, mandatory => [sm_rp_cause], optional => [sm_rp_ui]},
   16#2e => #{message_type => ready_for_sm_res, mandatory => []},

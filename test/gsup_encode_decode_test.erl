@@ -19,7 +19,7 @@
 
 missing_params_test() ->
   ?assertError({mandatory_ie_missing,location_cancellation_err,[cause]}, gsup_protocol:decode(<<16#1d, ?TEST_IMSI_IE>>)),
-  ?assertError({mandatory_ie_missing,mo_forward_req,[sm_rp_mr,sm_rp_da,sm_rp_oa,sm_rp_ui]}, gsup_protocol:encode(#{message_type => mo_forward_req, imsi => <<"123456">>})).
+  ?assertError({mandatory_ie_missing,mo_forward_sm_req,[sm_rp_mr,sm_rp_da,sm_rp_oa,sm_rp_ui]}, gsup_protocol:encode(#{message_type => mo_forward_sm_req, imsi => <<"123456">>})).
 
 excess_params_test() ->
   ?assertError({ie_not_expected,location_upd_err,[pdp_info_complete]}, gsup_protocol:encode(#{message_type => location_upd_err,imsi => <<"1234">>,cause => 1,pdp_info_complete => <<>>})).
@@ -309,7 +309,7 @@ mo_forward_sm_req_test() ->
       16#de, 16#ad, 16#be, 16#ef
   >>,
   Map = #{imsi => <<"123456789012345">>,
-                   message_type => mo_forward_req,
+                   message_type => mo_forward_sm_req,
                    sm_rp_da => <<3,145,82,117,71,153,9,130>>,
                    sm_rp_mr => 250,sm_rp_oa => <<16#ff>>,sm_rp_ui => <<16#de, 16#ad, 16#be, 16#ef>>},
   ?assertEqual(Map, gsup_protocol:decode(Bin)),
@@ -331,7 +331,7 @@ mt_forward_sm_req_test() ->
       16#01
   >>,
   Map = #{imsi => <<"123456789012345">>,
-                   message_type => mt_forward_req,
+                   message_type => mt_forward_sm_req,
                    sm_rp_da => <<1,33,67,101,135,9,33,67,245>>,
                    sm_rp_mms => 1,sm_rp_mr => 250,
                    sm_rp_oa => <<3,145,82,117,71,153,9,130>>,
@@ -347,7 +347,7 @@ mo_forward_sm_err_test() ->
       16#af
   >>,
   Map = #{imsi => <<"123456789012345">>,
-                   message_type => mo_forward_err,sm_rp_cause => 175,
+                   message_type => mo_forward_sm_err,sm_rp_cause => 175,
                    sm_rp_mr => 250},
   ?assertEqual(Map, gsup_protocol:decode(Bin)),
   ?assertEqual(Bin, gsup_protocol:encode(Map)).
@@ -360,7 +360,7 @@ mt_forward_sm_res_test() ->
       16#de, 16#ad, 16#be, 16#ef
   >>,
   Map = #{imsi => <<"123456789012345">>,
-                   message_type => mt_forward_res,sm_rp_mr => 250,
+                   message_type => mt_forward_sm_res,sm_rp_mr => 250,
                    sm_rp_ui => <<16#de, 16#ad, 16#be, 16#ef>>},
   ?assertEqual(Map, gsup_protocol:decode(Bin)),
   ?assertEqual(Bin, gsup_protocol:encode(Map)).
