@@ -56,19 +56,21 @@
                   | e_abort
                   | e_routing_err.
 
+-type 'GSUPAuthTuple'() :: #{
+  rand := binary(),
+  sres := binary(),
+  kc := binary(),
+  ik => binary(),
+  ck => binary(),
+  autn => binary(),
+  res => binary()
+}.
+
 -type 'GSUPMessage'() :: #{
   message_type := 'GSUPMessageType'(),
   imsi := binary(),
   cause => integer(),
-  auth_tuples => [#{
-    rand := binary(),
-    sres := binary(),
-    kc := binary(),
-    ik => binary(),
-    ck => binary(),
-    autn => binary(),
-    res => binary()
-  }] | [],
+  auth_tuples => ['GSUPAuthTuple'()],
   pdp_info_complete => true,
   pdp_info_list => [#{
     pdp_context_id => integer(),
