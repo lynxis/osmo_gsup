@@ -66,19 +66,21 @@
   res => binary()
 }.
 
+-type 'GSUPPdpInfo'() :: #{
+  pdp_context_id => integer(),
+  pdp_type => integer(),
+  access_point_name => binary(),
+  quality_of_service => binary(),
+  pdp_charging => integer()
+}.
+
 -type 'GSUPMessage'() :: #{
   message_type := 'GSUPMessageType'(),
   imsi := binary(),
   cause => integer(),
   auth_tuples => ['GSUPAuthTuple'()],
   pdp_info_complete => true,
-  pdp_info_list => [#{
-    pdp_context_id => integer(),
-    pdp_type => integer(),
-    access_point_name => binary(),
-    quality_of_service => binary(),
-    pdp_charging => integer()
-  }],
+  pdp_info_list => ['GSUPPdpInfo'()],
   cancellation_type => integer(),
   freeze_p_tmsi => true,  
   msisdn => binary(),
