@@ -108,6 +108,10 @@ decode_ie(<<?CN_DOMAIN, Len, CN_Domain:Len/unit:8, Tail/binary>>, Map) ->
   ?CHECK_LEN(cn_domain, Len, 1, 1),
   decode_ie(Tail, Map#{cn_domain => CN_Domain});
 
+decode_ie(<<?RAT_TYPE, Len, Rat_Type:Len/binary, Tail/binary>>, Map) ->
+  ?CHECK_LEN(rat_type, Len, 1, 8),
+  decode_ie(Tail, Map#{rat_type => decode_rat_types(binary_to_list(Rat_Type))});
+
 decode_ie(<<?SESSION_ID, Len, SesID:Len/unit:8, Tail/binary>>, Map) ->
   ?CHECK_LEN(session_id, Len, 4, 4),
   decode_ie(Tail, Map#{session_id => SesID});
@@ -257,6 +261,17 @@ decode_pdp_info(<<?PDP_CHARGING, Len, PDPCharging:Len/unit:8, Tail/binary>>, Map
 
 decode_pdp_info(<<>>, Map) -> Map.
 
+decode_rat_type(0) -> rat_unknown;
+decode_rat_type(1) -> rat_geran_a;
+decode_rat_type(2) -> rat_utran_iu;
+decode_rat_type(3) -> rat_eutran_sgs.
+
+decode_rat_types([], Acc) -> lists:reverse(Acc);
+decode_rat_types([Head|Tail], Acc) ->
+	T = decode_rat_type(Head),
+	decode_rat_types(Tail, [T|Acc]).
+decode_rat_types(List) -> decode_rat_types(List, []).
+
 -spec encode('GSUPMessage'()) -> binary() | no_return().
 encode(GSUPMessage = #{message_type := MsgTypeAtom}) when is_atom(MsgTypeAtom) ->
   F = fun
@@ -389,6 +404,12 @@ encode_ie(#{cn_domain := Value} = GSUPMessage, Head) ->
   Len = 1,
   ?CHECK_SIZE(cn_domain, Len, Value),
   encode_ie(maps:without([cn_domain], GSUPMessage), <<Head/binary, ?CN_DOMAIN, Len, Value:Len/unit:8>>);
+
+encode_ie(#{rat_type := Value} = GSUPMessage, Head) when is_list(Value) ->
+  Len = length(Value),
+  ?CHECK_LEN(rat_type, Len, 1, 8),
+  RatList = encode_rat_types(Value),
+  encode_ie(maps:without([rat_type], GSUPMessage), <<Head/binary, ?RAT_TYPE, Len, RatList/binary>>);
 
 encode_ie(#{ss_info := Value} = GSUPMessage, Head) ->
   Len = size(Value),
@@ -575,3 +596,14 @@ encode_pdp_info(#{pdp_charging := Value} = Map, Head) ->
   encode_pdp_info(maps:without([pdp_charging], Map), <<Head/binary, ?PDP_CHARGING, Len, Value:Len/unit:8>>);
 
 encode_pdp_info(#{}, Head) -> Head.
+
+encode_rat_type(rat_unknown) -> 0;
+encode_rat_type(rat_geran_a) -> 1;
+encode_rat_type(rat_utran_iu) -> 2;
+encode_rat_type(rat_eutran_sgs) -> 3.
+
+encode_rat_types([], Acc) -> list_to_binary(lists:reverse(Acc));
+encode_rat_types([Head|Tail], Acc) ->
+	T = encode_rat_type(Head),
+	encode_rat_types(Tail, [T|Acc]).
+encode_rat_types(List) -> encode_rat_types(List, []).

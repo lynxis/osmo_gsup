@@ -42,6 +42,13 @@ sai_req_test() ->
   ?assertEqual(Map, gsup_protocol:decode(Bin)),
   ?assertEqual(Bin, gsup_protocol:encode(Map)).
 
+sai_req_eps_test() ->
+  Bin = <<16#08, ?TEST_IMSI_IE, ?TEST_CLASS_SUBSCR_IE>>,
+  Map = #{imsi => <<"123456789012345">>, message_class => 1, message_type => send_auth_info_req,
+	  rat_type => [rat_eutran_sgs]},
+  ?assertEqual(Map, gsup_protocol:decode(Bin)),
+  ?assertEqual(Bin, gsup_protocol:encode(Map)).
+
 sai_err_test() ->
   Bin = <<16#09, ?TEST_IMSI_IE, 16#02, 16#01, 16#07>>,
   Map = #{imsi => <<"123456789012345">>, message_type => send_auth_info_err, cause=>7},
