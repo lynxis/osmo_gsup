@@ -108,9 +108,9 @@ decode_ie(<<?CN_DOMAIN, Len, CN_Domain:Len/unit:8, Tail/binary>>, Map) ->
   ?CHECK_LEN(cn_domain, Len, 1, 1),
   decode_ie(Tail, Map#{cn_domain => CN_Domain});
 
-decode_ie(<<?RAT_TYPE, Len, Rat_Type:Len/binary, Tail/binary>>, Map) ->
-  ?CHECK_LEN(rat_type, Len, 1, 8),
-  decode_ie(Tail, Map#{rat_type => decode_rat_types(binary_to_list(Rat_Type))});
+decode_ie(<<?SUPPORTED_RAT_TYPES, Len, Rat_Type:Len/binary, Tail/binary>>, Map) ->
+  ?CHECK_LEN(supported_rat_types, Len, 1, 8),
+  decode_ie(Tail, Map#{supported_rat_types => decode_rat_types(binary_to_list(Rat_Type))});
 
 decode_ie(<<?SESSION_ID, Len, SesID:Len/unit:8, Tail/binary>>, Map) ->
   ?CHECK_LEN(session_id, Len, 4, 4),
@@ -405,11 +405,11 @@ encode_ie(#{cn_domain := Value} = GSUPMessage, Head) ->
   ?CHECK_SIZE(cn_domain, Len, Value),
   encode_ie(maps:without([cn_domain], GSUPMessage), <<Head/binary, ?CN_DOMAIN, Len, Value:Len/unit:8>>);
 
-encode_ie(#{rat_type := Value} = GSUPMessage, Head) when is_list(Value) ->
+encode_ie(#{supported_rat_types := Value} = GSUPMessage, Head) when is_list(Value) ->
   Len = length(Value),
-  ?CHECK_LEN(rat_type, Len, 1, 8),
+  ?CHECK_LEN(supported_rat_types, Len, 1, 8),
   RatList = encode_rat_types(Value),
-  encode_ie(maps:without([rat_type], GSUPMessage), <<Head/binary, ?RAT_TYPE, Len, RatList/binary>>);
+  encode_ie(maps:without([supported_rat_types], GSUPMessage), <<Head/binary, ?SUPPORTED_RAT_TYPES, Len, RatList/binary>>);
 
 encode_ie(#{ss_info := Value} = GSUPMessage, Head) ->
   Len = size(Value),

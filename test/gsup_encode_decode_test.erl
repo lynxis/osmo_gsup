@@ -15,6 +15,7 @@
 -define(TEST_AN_APDU_IE, 16#62, 16#05, 16#01, 16#42, 16#42, 16#42, 16#42).
 -define(TEST_SOURCE_NAME_IE, 16#60, 16#05, "MSC-A").
 -define(TEST_DESTINATION_NAME_IE, 16#61, 16#05, "MSC-B").
+-define(TEST_SUPP_RAT_TYPES_IE, 16#29, 16#01, 16#03).
 
 
 missing_params_test() ->
@@ -43,9 +44,9 @@ sai_req_test() ->
   ?assertEqual(Bin, gsup_protocol:encode(Map)).
 
 sai_req_eps_test() ->
-  Bin = <<16#08, ?TEST_IMSI_IE, ?TEST_CLASS_SUBSCR_IE>>,
+  Bin = <<16#08, ?TEST_IMSI_IE, ?TEST_CLASS_SUBSCR_IE, ?TEST_SUPP_RAT_TYPES_IE>>,
   Map = #{imsi => <<"123456789012345">>, message_class => 1, message_type => send_auth_info_req,
-	  rat_type => [rat_eutran_sgs]},
+	  supported_rat_types => [rat_eutran_sgs]},
   ?assertEqual(Map, gsup_protocol:decode(Bin)),
   ?assertEqual(Bin, gsup_protocol:encode(Map)).
 

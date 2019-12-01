@@ -92,7 +92,7 @@
   rand => binary(),
   auts => binary(),
   cn_domain => integer(),
-  rat_type => 'GSUPRatType'(),
+  supported_rat_types => ['GSUPRatType'()],
   session_id => integer(),
   session_state => integer(),
   ss_info => binary(),
@@ -142,7 +142,7 @@
 -define(AUTS, 16#26).
 -define(RES, 16#27).
 -define(CN_DOMAIN, 16#28).
--define(RAT_TYPE, 16#29).
+-define(SUPPORTED_RAT_TYPES, 16#29).
 -define(SESSION_ID, 16#30).
 -define(SESSION_STATE, 16#31).
 -define(SS_INFO, 16#35).
@@ -170,7 +170,7 @@
   16#04 => #{message_type => location_upd_req, mandatory => [], optional => [cn_domain]},
   16#05 => #{message_type => location_upd_err, mandatory => [cause]},
   16#06 => #{message_type => location_upd_res, mandatory => [], optional => [msisdn, hlr_number, pdp_info_complete, pdp_info_list, pdp_charging]},
-  16#08 => #{message_type => send_auth_info_req, mandatory => [], optional => [cn_domain, auts, rand, rat_type]},
+  16#08 => #{message_type => send_auth_info_req, mandatory => [], optional => [cn_domain, auts, rand, supported_rat_types]},
   16#09 => #{message_type => send_auth_info_err, mandatory => [cause]},
   16#0a => #{message_type => send_auth_info_res, mandatory => [], optional => [auth_tuples, auts, rand]},
   16#0b => #{message_type => auth_failure_report, mandatory => [], optional => [cn_domain]},
