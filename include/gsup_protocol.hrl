@@ -3,6 +3,7 @@
 % file, You can obtain one at https://mozilla.org/MPL/2.0/.
 % (C) 2019 Andrey Velikiy <agreat22@gmail.com>
 % (C) 2019 Fairwaves (edited) 
+% (C) 2019 Harald Welte <laforge@gnumonks.org>
 
 -ifndef(GSUP_PROTOCOL).
 -define(GSUP_PROTOCOL, true).
@@ -93,6 +94,7 @@
   auts => binary(),
   cn_domain => integer(),
   supported_rat_types => ['GSUPRatType'()],
+  current_rat_type => 'GSUPRatType'(),
   session_id => integer(),
   session_state => integer(),
   ss_info => binary(),
@@ -143,6 +145,7 @@
 -define(RES, 16#27).
 -define(CN_DOMAIN, 16#28).
 -define(SUPPORTED_RAT_TYPES, 16#29).
+-define(CURRENT_RAT_TYPE, 16#2a).
 -define(SESSION_ID, 16#30).
 -define(SESSION_STATE, 16#31).
 -define(SS_INFO, 16#35).
@@ -170,7 +173,7 @@
   16#04 => #{message_type => location_upd_req, mandatory => [], optional => [cn_domain]},
   16#05 => #{message_type => location_upd_err, mandatory => [cause]},
   16#06 => #{message_type => location_upd_res, mandatory => [], optional => [msisdn, hlr_number, pdp_info_complete, pdp_info_list, pdp_charging]},
-  16#08 => #{message_type => send_auth_info_req, mandatory => [], optional => [cn_domain, auts, rand, supported_rat_types]},
+  16#08 => #{message_type => send_auth_info_req, mandatory => [], optional => [cn_domain, auts, rand, supported_rat_types, current_rat_type]},
   16#09 => #{message_type => send_auth_info_err, mandatory => [cause]},
   16#0a => #{message_type => send_auth_info_res, mandatory => [], optional => [auth_tuples, auts, rand]},
   16#0b => #{message_type => auth_failure_report, mandatory => [], optional => [cn_domain]},
