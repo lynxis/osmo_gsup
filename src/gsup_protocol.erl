@@ -159,6 +159,10 @@ decode_ie(<<?IMEI_CHECK_RESULT, Len, IMEIResult:Len/unit:8, Tail/binary>>, Map) 
   ?CHECK_LEN(imei_check_result, Len, 1, 1),
   decode_ie(Tail, Map#{imei_check_result => IMEIResult});
 
+decode_ie(<<?NUM_VECTORS_REQ, Len, NUM_VECTORS_REQ:Len/unit:8, Tail/binary>>, Map) ->
+  ?CHECK_LEN(num_vectors_req, Len, 1, 1),
+  decode_ie(Tail, Map#{num_vectors_req => NumVectorsRequest});
+
 decode_ie(<<?SOURCE_NAME, Len, SourceName:Len/binary, Tail/binary>>, Map) ->
   decode_ie(Tail, Map#{source_name => SourceName});
 
@@ -466,6 +470,11 @@ encode_ie(#{imei_check_result := Value} = GSUPMessage, Head) ->
   Len = 1,
   ?CHECK_SIZE(imei_check_result, Len, Value),
   encode_ie(maps:without([imei_check_result], GSUPMessage), <<Head/binary, ?IMEI_CHECK_RESULT, Len, Value:Len/unit:8>>);
+
+encode_ie(#{num_vectors_req := Value} = GSUPMessage, Head) ->
+  Len = 1,
+  ?CHECK_SIZE(num_vectors_req, Len, Value),
+  encode_ie(maps:without([num_vectors_req], GSUPMessage), <<Head/binary, ?NUM_VECTORS_REQ, Len, Value:Len/unit:8>>);
 
 encode_ie(#{source_name := Value} = GSUPMessage, Head) ->
   Len = size(Value),

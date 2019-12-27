@@ -107,6 +107,7 @@
   sm_alert_reason => integer(),
   imei => binary(),
   imei_check_result => integer(),
+  num_vectors_req => integer(),
   message_class => integer(),
   source_name => binary(),
   destination_name => binary(),
@@ -158,6 +159,7 @@
 -define(SM_ALERT_REASON, 16#46).
 -define(IMEI, 16#50).
 -define(IMEI_CHECK_RESULT, 16#51).
+-define(NUM_VECTORS_REQ, 16#52).
 -define(SOURCE_NAME, 16#60).
 -define(DESTINATION_NAME, 16#61).
 -define(AN_APDU, 16#62).
@@ -173,7 +175,7 @@
   16#04 => #{message_type => location_upd_req, mandatory => [], optional => [cn_domain]},
   16#05 => #{message_type => location_upd_err, mandatory => [cause]},
   16#06 => #{message_type => location_upd_res, mandatory => [], optional => [msisdn, hlr_number, pdp_info_complete, pdp_info_list, pdp_charging]},
-  16#08 => #{message_type => send_auth_info_req, mandatory => [], optional => [cn_domain, auts, rand, supported_rat_types, current_rat_type]},
+  16#08 => #{message_type => send_auth_info_req, mandatory => [], optional => [cn_domain, auts, rand, supported_rat_types, current_rat_type, num_vectors_req]},
   16#09 => #{message_type => send_auth_info_err, mandatory => [cause]},
   16#0a => #{message_type => send_auth_info_res, mandatory => [], optional => [auth_tuples, auts, rand]},
   16#0b => #{message_type => auth_failure_report, mandatory => [], optional => [cn_domain]},
