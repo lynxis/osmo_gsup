@@ -177,7 +177,7 @@
   16#06 => #{message_type => location_upd_res, mandatory => [], optional => [msisdn, hlr_number, pdp_info_complete, pdp_info_list, pdp_charging]},
   16#08 => #{message_type => send_auth_info_req, mandatory => [], optional => [cn_domain, auts, rand, supported_rat_types, current_rat_type, num_vectors_req]},
   16#09 => #{message_type => send_auth_info_err, mandatory => [cause]},
-  16#0a => #{message_type => send_auth_info_res, mandatory => [], optional => [auth_tuples, auts, rand]},
+  16#0a => #{message_type => send_auth_info_res, mandatory => [], optional => [auth_tuples, auts, rand, num_vectors_req]},
   16#0b => #{message_type => auth_failure_report, mandatory => [], optional => [cn_domain]},
   16#0c => #{message_type => purge_ms_req, mandatory => [], optional => [cn_domain, hlr_number]},
   16#0d => #{message_type => purge_ms_err, mandatory => [cause]},
