@@ -182,7 +182,7 @@
   16#0c => #{message_type => purge_ms_req, mandatory => [], optional => [cn_domain, hlr_number]},
   16#0d => #{message_type => purge_ms_err, mandatory => [cause]},
   16#0e => #{message_type => purge_ms_res, mandatory => [freeze_p_tmsi]},
-  16#10 => #{message_type => insert_sub_data_req, mandatory => [pdp_info_complete], optional => [cn_domain, msisdn, hlr_number, pdp_info_list, pdp_charging]},
+  16#10 => #{message_type => insert_sub_data_req, mandatory => [], optional => [pdp_info_complete, cn_domain, msisdn, hlr_number, pdp_info_list, pdp_charging]},
   16#11 => #{message_type => insert_sub_data_err, mandatory => [cause]},
   16#12 => #{message_type => insert_sub_data_res, mandatory => []},
   16#14 => #{message_type => delete_sub_data_req, mandatory => [], optional => [cn_domain, pdp_context_id]},
